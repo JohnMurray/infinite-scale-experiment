@@ -1,0 +1,2 @@
+campaign1: bundle exec thin start -R campaign-config.ru -p 3001 -e shard1
+campaign2: bundle exec thin start -R campaign-config.ru -p 3002 -e shard2
