@@ -21,11 +21,12 @@ directory. Breifly, these are:
 + Simple Service Locater (routing)
 + Manual shard configuration (router-level)
 + Dynamic shard configuration (campaign-level)
-+ Server registration on startup
 
 
 ### Phase 2
 
++ Improved key-range functionality
++ Server registration on startup
 + Dynamic shard configuration (router-level)
 + Re-balancing of sharded data across existing instances
 

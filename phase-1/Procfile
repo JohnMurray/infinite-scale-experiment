@@ -1,4 +1,4 @@
-router:    bundle exec thin start -R router-config.ru   -p 3000 -e prod
+router:    bundle exec thin start -R router-config.ru   -p 3000
 
-campaign1: bundle exec thin start -R campaign-config.ru -p 3001 -e shard1
-campaign2: bundle exec thin start -R campaign-config.ru -p 3002 -e shard2
+campaign10: ./start-with-shard.sh a-m 3001 campaign-config.ru
+campaign10: ./start-with-shard.sh n-z 3002 campaign-config.ru

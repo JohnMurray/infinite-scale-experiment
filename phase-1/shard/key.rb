@@ -3,14 +3,14 @@ module Shard
   # Represents a key for data stored in a sharded fashion.
   class Key
 
-    REQUIRED_METHODS = [:<=, :>=]
+    REQUIRED_METHODS = [:<=, :>=].sort
 
     # Ensure that the correct properties exist on our keys so that
     # we can ensure everything works as planned. (yes I know this is
     # probably not entirely Ruby'ish, but it makes me feel all safe
     # inside, type-safe that is).
     def initialize(key)
-      unless (key.methods & REQUIRED_METHODS) == REQUIRED_METHODS
+      unless (key.methods & REQUIRED_METHODS).sort == REQUIRED_METHODS
         raise MissingKeyMethods.new
       end
 
@@ -22,7 +22,7 @@ module Shard
     #
     # Returns boolean indicating inclusion in range
     def in?(range)
-      self.key <= range.end and self.key >= range.start
+      @key <= range.end and @key >= range.start
     end
   end
 

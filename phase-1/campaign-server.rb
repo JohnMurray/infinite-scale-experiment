@@ -6,11 +6,15 @@ require_relative 'db'
 
 
 class CampaignApp < Sinatra::Base
-  def initialize
+
+  def initialize(shard)
     super()
-    env = ENV['RACK_ENV']
-    STDERR.puts("Campaign server started for shard: #{env}")
-    @db = DB.new('campaign', env)
+    STDERR.puts("Campaign server started for shard: #{shard}")
+    @db = DB.new('campaign', shard)
+  end
+
+  before '*' do
+    STDERR.puts "Received request: #{to}"
   end
 
   get '/campaign/:id' do
@@ -19,12 +23,16 @@ class CampaignApp < Sinatra::Base
 
   put '/campaign/:id' do
     data = JSON.parse(request.body.read)
-    @db.store(params['id'], data)
+    res = @db.store(params['id'], data)
+
+    {id: res}.to_json
   end
 
-  post '/campaign' do
-    id = Time.now.to_i.to_s
-    @db.store(id, JSON.parse(request.body.read))
+  post '/campaign/:id' do
+    id = params[:id]
+    data = JSON.parse(request.body.read)
+    res = @db.store(id, data)
+    {id: res}.to_json
   end
 
   delete '/campaign/:id' do

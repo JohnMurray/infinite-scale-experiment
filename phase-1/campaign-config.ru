@@ -1,4 +1,6 @@
 require_relative 'campaign-server'
 
-app = CampaignApp.new
+shard = ENV['SHARD']
+
+app = CampaignApp.new(shard)
 run app
