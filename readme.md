@@ -23,12 +23,13 @@ directory. Breifly, these are:
 + Dynamic shard configuration (campaign-level)
 
 
-### Phase 2
+### Phase 2 (the awkward years)
 
 + Improved key-range functionality
++ Router-layer to create POST ids
 + Server registration on startup
-+ Dynamic shard configuration (router-level)
-+ Re-balancing of sharded data across existing instances
++ Dynamic shard configuration (router-level) 
++ Could result in data becoming unreachable (that's okay for now)
 
 
 ### Phase 3
