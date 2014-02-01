@@ -48,5 +48,48 @@ directory. Breifly, these are:
 + Service Chasing (fail-over, scale up/down, data re-balancing)
 
 
+
+----
+
+
+## Random Ideas
+
+### ORM
+
+It might make sense to add a simple ORM type thing (not really an ORM)
+on top of the simple DB layer that we're using. In general it would need
+to:
+
++ Specify a schema for a given service (campaign, profile, advertiser, etc)
++ Be able to perform an update with a combined object (campaign-profile)
+  and for a given schema and return a set of objects that can be applied
+  to activities (in the queue-thing sense of the world) for other services.
+  This updated object would not have an updated reference to the parent ID
+  which I assume would be necessary.
+
+The general idea of what I'm thinking is something along the lines of
+
+```ruby
+class Schema::Campaign < Schema::Base
+  fields :id, :name
+  key :id
+  
+  child_relation :profile, Schema::Profile
+end
+
+class Schema::Profile < Schema::Base
+  fields :id, :os_targets, :device_targets, ...
+  key :id
+
+  parent_relation :campaign, Schema::Campaign
+end
+
+# usage
+child_updates = db.update(Schema::Campaign).with(data).commit
+
+child_updates.each { |c| service_dispatcher.send(c) }
+```
+
+
   [1]: http://cs.brown.edu/courses/cs227/archives/2012/papers/weaker/cidr07p15.pdf
 
